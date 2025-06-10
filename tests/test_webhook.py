@@ -11,13 +11,13 @@ class Dummy:
 
 
 def test_webhook(client, monkeypatch):
-    email_dummy = Dummy()
-    monkeypatch.setattr(server, "send_email", email_dummy)
+    dummy = Dummy()
+    monkeypatch.setattr(server, "handle_alert", dummy)
     response = client.post('/webhook', json={'foo': 'bar'})
     assert response.status_code == 200
     data = json.loads(response.data.decode())
     assert data['received'] == {'foo': 'bar'}
-    assert email_dummy.calls, "send_email should be called"
+    assert dummy.calls, "handle_alert should be called"
 
 def test_webhook_echo(client):
     response = client.post('/webhook', json={'foo': 'bar'})
