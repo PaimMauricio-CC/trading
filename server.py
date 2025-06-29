@@ -37,6 +37,8 @@ def webhook():
     if data is None:
         return jsonify({'error': 'Invalid JSON'}), 400
     body = json.dumps(data)
+    # Print the alert payload so it appears in the console logs
+    print(f"Received alert: {body}")
     send_email('TradingView Alert', body)
     return jsonify({'received': data}), 200
 
